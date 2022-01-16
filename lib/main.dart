@@ -1,27 +1,39 @@
 import 'package:flutter/material.dart';
 
 /*
-* This is the starting point of our application. It will update the UI based on
-* the state we will create and update with clicks of a button.
+*Now that we have most of the UI intact we need to update it to handle 
+* clicks by the user. 
+* 
+* To do this we need to turn our dice images into buttons. This is done using
+* the FlatButton Widget. The flat button comes with its own padding so we 
+* should get id of our exiting padding to prevent it from looking too weird
 *
-* We need to add an image to the body of our application, but the size is a
-* problem. To shrink the picture size we don't just want to adjust the width
-* as it will not change dynamically. We want to add an Expanded widget to our
-* row to fill the available space
+* Also the Flat Button is deprecated should use TextButton instead.
 *
-* Expanded review the docs on expanded but only a few widgets can have this as a
-* child widget. If you want to have one element have precedence when it comes
-* to relative size you can add the flex property to the expanded widget
+* Our button Widget has a required property called onPressed. This property
+* takes an anonymous function. Here is where we provide the instructions to our
+* button
 *
-* You can also use shorthand to access the images in the project.
-* Use Image.asset to reference the asset images. Its a lot shorter than nesting
-* the asset url into the Image widget.
+* We want to tell the picture to update everytime the button is clicked.
 *
-* Now that our project is set up from the UI standpoint lets start to add some
-* functionality.
+* Lets create a variable ot store the dice number and place that variable value
+* into the sting that is getting the image for the button. We are creating this
+* variable within the build context so it can change during hot reload. If it
+* was outside of the build method it wouldn't change.
+*
+*In the real world though we wouldn't want to create those variables everytime
+*the page updates, so we can move it outside of the build context.
+*
+* Now we are able to change the picture based on a variable we need to be able
+* to update the UI without using hot reload. We need to keep track of the
+* pages state.
+
+We will do this in the next lesson
+
 * */
 
 void main() {
+
   return runApp(
     MaterialApp(
       home: Scaffold(
@@ -36,26 +48,43 @@ void main() {
   );
 }
 
+
+
 class DicePage extends StatelessWidget {
+
+  int leftDiceNumber = 3;
+  int rightDiceNumber = 2;
+
   @override
   Widget build(BuildContext context) {
+
+
     return Center(
       child: Row(
         children: [
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Image.asset('images/dice1.png'),
-            )
+            child: TextButton(
+              child: Image.asset('images/dice$leftDiceNumber.png'),
+              onPressed: () {
+                print("Left Button got pressed");
+              },
+            ),
           ),
           Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Image.asset('images/dice1.png'),
-              )
+            child: TextButton(
+              child: Image.asset('images/dice$rightDiceNumber.png'),
+              onPressed: () {
+                print("Right Button got pressed");
+              }
+            )
           ),
         ],
       ),
     );
   }
 }
+
+
+
+
+
